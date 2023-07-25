@@ -5,25 +5,22 @@ const headerInput = document.querySelector(".header-input");
 const todoList = document.querySelector(".todo-list");
 const todoCompleted = document.querySelector(".todo-completed");
 
+let todoData = []
 
-let todoData = [];
 
-const token = () => {
-    const saveToken = localStorage.getItem('token')
-    const deployedToken = JSON.parse(saveToken)
-    if(deployedToken === null){
-      return deployedToken 
-    } else {
-      deployedToken.forEach((item) => {
-        todoData.push(item)
-    })
-    }
+
+const getData = () => {
+    const data = localStorage.getItem('list-users')
+    todoData = JSON.parse(data) || []
     render()
 }
 
-const render = () => {
+const savingData = () => {
   const saveData = JSON.stringify(todoData)
-  localStorage.setItem('token', saveData)
+  localStorage.setItem('list-users', saveData)
+}
+
+const render = () => {
   todoList.innerHTML = "";
   todoCompleted.innerHTML = "";
   todoData.forEach((item, index) => {
@@ -57,8 +54,15 @@ const render = () => {
         todoData.splice(index, 1)
         render()
     })
+
+  
   });
+
+  savingData()
 };
+
+getData()
+
 
 
 todoControl.addEventListener("submit", function (event) {
@@ -77,9 +81,6 @@ todoControl.addEventListener("submit", function (event) {
      render();
   }
 });
-
-token()
-
 
 
 
